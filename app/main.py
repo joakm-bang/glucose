@@ -10,6 +10,8 @@ app = Flask(__name__)
 def index():
     
     def process_df(df):
+        df.columns = [col.strip() for col in df.columns]
+        df['fasting'] = (df['event'] == ' Fasting[8]').astype(int)
         # only with memo or fasting
         df = df.loc[~pd.isnull(df['memo']) | (df['fasting'] == 1)]
         # only bev
